@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Adaptor : An extensible jQuery content slider" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Adaptor</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/p-m-p/jquery-box-slider">View on GitHub</a>
+
+          <h1 id="project_title">Adaptor</h1>
+          <h2 id="project_tagline">An extensible jQuery content slider</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/p-m-p/jquery-box-slider/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/p-m-p/jquery-box-slider/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>Adaptor is a light-weight content slider that aims to provide a simple
+interface for developers to create cool 2D or 3D slide animation transitions.</p>
+
+<h2>Support</h2>
+
+<p>Currently, I've only added 3D support for webkit and Firefox, all other browsers
+will fallback gracefully to a simple fade transition when using the 3D effects.</p>
+
+<p>All 2D slide transitions have been tested in IE6+ and all other modern browsers.</p>
+
+<h2>Usage</h2>
+
+<p>Create a view port for the 3D perspective and within that add the HTML to create
+a box containing slides of content.</p>
+
+<div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"slider-viewport"</span><span class="nt">&gt;</span><span class="c">&lt;!-- works as a viewport for the 3D transitions --&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"content-box"</span><span class="nt">&gt;</span><span class="c">&lt;!-- the 3d box --&gt;</span>
+    <span class="nt">&lt;figure&gt;</span><span class="c">&lt;!-- slide --&gt;</span>
+      <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"img/slide-1.png"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;figcaption&gt;</span>This is slide one's description<span class="nt">&lt;/figcaption&gt;</span>
+    <span class="nt">&lt;/figure&gt;</span>
+    <span class="nt">&lt;figure&gt;</span>
+      <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"img/slide-2.png"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;figcaption&gt;</span>This is slide two's description<span class="nt">&lt;/figcaption&gt;</span>
+    <span class="nt">&lt;/figure&gt;</span>
+    <span class="nt">&lt;figure&gt;</span>
+      <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"img/slide-3.png"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;figcaption&gt;</span>This is slide three's description<span class="nt">&lt;/figcaption&gt;</span>
+    <span class="nt">&lt;/figure&gt;</span>
+    <span class="nt">&lt;figure</span> <span class="na">class=</span><span class="s">"slide"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"img/slide-4.png"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;figcaption&gt;</span>This is slide four's description<span class="nt">&lt;/figcaption&gt;</span>
+    <span class="nt">&lt;/figure&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+
+<p>Technically no CSS is required but if the outer box <code>div.slider-viewport</code> is
+statically positioned the plugin will apply relative positioning to it so that
+it can hold the absolutely positioned box. It should be noted that the viewport
+and box should be the same width and height as the content slides so that the
+rotation does not appear off center. It is also a good idea to constrain the
+size of the viewport so that the slides don't spew down the page at load time.</p>
+
+<div class="highlight"><pre><span class="c">/* overfow will get set to visible on initialisation of the plugin */</span>
+<span class="nc">.slider-viewport</span> <span class="p">{</span> <span class="k">width</span><span class="o">:</span> <span class="m">560px</span><span class="p">;</span> <span class="k">height</span><span class="o">:</span> <span class="m">380px</span><span class="p">;</span> <span class="k">overflow</span><span class="o">:</span> <span class="k">hidden</span> <span class="p">}</span>
+</pre></div>
+
+<p>Include the <code>box-slider.jquery.js</code> (this one first) and the desired effect
+scripts (these second) in your page and then on page load the usual jQuery
+sugaryness applies...</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'#content-box'</span><span class="p">).</span><span class="nx">boxSlider</span><span class="p">(</span> <span class="cm">/* options */</span> <span class="p">);</span>
+</pre></div>
+
+<h2>Options</h2>
+
+<ul>
+<li>
+<code>speed (default: 800)</code> The time interval in milliseconds within which the
+slide animation will complete</li>
+<li>
+<code>autoscroll (default: false)</code> Set true to automatically transition through
+the slides</li>
+<li>
+<code>timeout (default: 5000)</code> The time interval between slide transitions. For use
+with autoscroll</li>
+<li>
+<code>pause (default: null)</code> A DOM element, jQuery object or selector for an element
+that when clicked will toggle the autoscoll state of the slider. When the slider
+is in a paused state the element will be applied a class name of paused</li>
+<li>
+<code>pauseOnHover (default: false)</code> Pause an auto-scrolling slider when the users
+mouse hovers over it. For use with autoscroll</li>
+<li>
+<code>next (default: null)</code> A DOM element, jQuery object or selector for an element
+that when clicked will advance the slider to the next slide</li>
+<li>
+<code>prev (default: null)</code> A DOM element, jQuery object or selector for an element
+that when clicked will advance the slider to the previous slide</li>
+<li>
+<code>effect (default: 'scrollVert3d')</code> The slide animation effect to use when
+scrolling through content slides</li>
+</ul><h2>Effect options</h2>
+
+<h3><code>srollVert3d,scrollHorz3d</code></h3>
+
+<ul>
+<li>
+<code>perspective (default: 1000)</code> The 3D perspective at which the content slides
+are placed from the view port during transition</li>
+</ul><h2>Methods</h2>
+
+<h3><code>showSlide</code></h3>
+
+<p>Shows a slide at the specified index starting from 0</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'#content-box'</span><span class="p">).</span><span class="nx">boxSlider</span><span class="p">(</span><span class="s1">'showSlide'</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span> <span class="c1">// show 4th slide</span>
+</pre></div>
+
+<h3><code>playPause</code></h3>
+
+<p>Start autoScrolling a slideshow or pause an already running slideshow</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'#content-box'</span><span class="p">).</span><span class="nx">boxSlider</span><span class="p">(</span><span class="s1">'playPause'</span><span class="p">);</span>
+</pre></div>
+
+<h3><code>option</code></h3>
+
+<p>Get or set a specific option</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'#content-box'</span><span class="p">).</span><span class="nx">boxSlider</span><span class="p">(</span><span class="s1">'option'</span><span class="p">,</span> <span class="s1">'speed'</span><span class="p">);</span> <span class="c1">// returns speed option value</span>
+<span class="nx">$</span><span class="p">(</span><span class="s1">'#content-box'</span><span class="p">).</span><span class="nx">boxSlider</span><span class="p">(</span><span class="s1">'option'</span><span class="p">,</span> <span class="s1">'speed'</span><span class="p">,</span> <span class="mi">1200</span><span class="p">);</span> <span class="c1">// sets the speed option to 1200</span>
+</pre></div>
+
+<h3><code>destroy</code></h3>
+
+<p>Destroys the plugin for the selected sliders</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'#content-box'</span><span class="p">).</span><span class="nx">boxSlider</span><span class="p">(</span><span class="s1">'destroy'</span><span class="p">);</span>
+</pre></div>
+
+<h3><code>next</code></h3>
+
+<p>Moves the slider to the next slide</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'#content-box'</span><span class="p">).</span><span class="nx">boxSlider</span><span class="p">(</span><span class="s1">'next'</span><span class="p">);</span>
+</pre></div>
+
+<h3><code>prev</code></h3>
+
+<p>Moves the slider to the previous slide</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'#content-box'</span><span class="p">).</span><span class="nx">boxSlider</span><span class="p">(</span><span class="s1">'prev'</span><span class="p">);</span>
+</pre></div>
+
+<h2>Events</h2>
+
+<h3><code>onbefore</code></h3>
+
+<p>Fires before each slide transition starts. The function parameter will be bound
+to the jQuerified box and will receive the current slide as it's first parameter,
+the next slide as its second, the current slide index as it's third and the next
+slide index as it's last.</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'#content-box'</span><span class="p">).</span><span class="nx">boxSlider</span><span class="p">(</span><span class="s1">'option'</span><span class="p">,</span> <span class="s1">'onbefore'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$currentSlide</span><span class="p">,</span> <span class="nx">$nextSlide</span><span class="p">,</span> <span class="nx">currIndex</span><span class="p">,</span> <span class="nx">nextIndex</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// 'this' is effectively $('#content-box')</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3><code>onafter</code></h3>
+
+<p>Fires after each slide transition is complete. The function parameter will be bound
+to the jQuerified box and will receive the previous slide as it's first parameter,
+the next slide as its second, the current slide index as it's third and the next
+slide index as it's last.</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'#content-box'</span><span class="p">).</span><span class="nx">boxSlider</span><span class="p">(</span><span class="s1">'option'</span><span class="p">,</span> <span class="s1">'onafter'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$previousSlide</span><span class="p">,</span> <span class="nx">$currentSlide</span><span class="p">,</span> <span class="nx">currIndex</span><span class="p">,</span> <span class="nx">nextIndex</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// 'this' is effectively $('#content-box')</span>
+<span class="p">});</span>
+</pre></div>
+
+<h2>Effects</h2>
+
+<p>The animation effects come as adaptors that are registered with the main box slider plugin
+using the <code>registerAnimator</code> method in one of the following ways. If the adaptor supports
+more than one animation effect then these must be passed in as a comma separated list.</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">boxSlider</span><span class="p">(</span><span class="s1">'registerAnimator'</span><span class="p">,</span> <span class="s1">'effectName'</span><span class="p">,</span> <span class="nx">AnimatorObject</span><span class="p">);</span> <span class="c1">// on $.fn</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">jqBoxSlider</span><span class="p">.</span><span class="nx">registerAnimator</span><span class="p">(</span><span class="s1">'effect1,effect2'</span> <span class="nx">AnimatorObject</span><span class="p">);</span> <span class="c1">// on the global alias</span>
+</pre></div>
+
+<p>Slide animators must implement the following interface and adhere to some fundamental rules.</p>
+
+<h3><code>configure(Boolean supports3D, String vendorPrefix)</code></h3>
+
+<p>This method is optional and is called during the adaptor registration process. The <code>supports3D</code>
+parameter identifies whether the host browser supports 3D CSS transformations and the <code>vendorPrefix</code>
+parameter provides the host browser CSS vendor prefix if it exists, e.g <code>'-moz-'</code>, <code>'-webkit-'</code>.</p>
+
+<div class="highlight"><pre><span class="nx">adaptor</span><span class="p">.</span><span class="nx">configure</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">supports3D</span><span class="p">,</span> <span class="nx">vendorPrefix</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// implementation omitted</span>
+<span class="p">};</span>
+</pre></div>
+
+<h3><code>initialize(jQuery $box, jQuery $slides, Object settings)</code></h3>
+
+<p>This method is required and sets up the initial state of each content slider. The first parameter
+<code>$box</code> is the jQuery content sliders main box (the selected element when the plugin is initialised), the
+second parameter is the jQuery <code>$slides</code> object containing all of the individual slide elements and
+the third parameter <code>settings</code> is the settings for the current content slider.</p>
+
+<div class="highlight"><pre><span class="nx">adaptor</span><span class="p">.</span><span class="nx">initialize</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$box</span><span class="p">,</span> <span class="nx">$slides</span><span class="p">,</span> <span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// implementation omitted</span>
+<span class="p">};</span>
+</pre></div>
+
+<p>During the initialisation process you may set the <code>_slideFilter</code> attribute on <code>settings</code> which will
+be used to filter the set of slides (<code>$slides</code>) before the transition takes place. An example of this
+can be seen in the <code>box-slider-fx-blinds.js</code> adaptor. This filter uses the jQuery filter method but
+if you pass a function then that function will be bound to the unfiltered <code>$slides</code> jQuery object and will
+recieve the index as the first paramter and the plugin settings as the second.</p>
+
+<div class="highlight"><pre><span class="nx">adaptor</span><span class="p">.</span><span class="nx">initialize</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$box</span><span class="p">,</span> <span class="nx">$slides</span><span class="p">,</span> <span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// implementation omitted</span>
+
+  <span class="nx">settings</span><span class="p">.</span><span class="nx">_slideFilter</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="o">!==</span> <span class="nx">settings</span><span class="p">.</span><span class="nx">$blinds</span><span class="p">;</span> <span class="c1">// 'this' will be $slides</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+
+<h3><code>transition(Object settings)</code></h3>
+
+<p>This method is required and completes the transition from the current slide to the next slide.
+The <code>settings</code> parameter is the plugin settings for the content slider extended with the following.</p>
+
+<div class="highlight"><pre><span class="p">{</span>
+    <span class="nx">$box</span><span class="o">:</span> <span class="c1">// jQuery object containing the content slider box</span>
+  <span class="p">,</span> <span class="nx">$slides</span><span class="o">:</span> <span class="c1">// jQuery object containing all of the content slides</span>
+  <span class="p">,</span> <span class="nx">$currSlide</span><span class="o">:</span> <span class="c1">// jQuery object containing the current visible slide</span>
+  <span class="p">,</span> <span class="nx">$nextSlide</span><span class="o">:</span> <span class="c1">// jQuery object containing the next slide to show</span>
+  <span class="p">,</span> <span class="nx">reverse</span><span class="o">:</span> <span class="c1">// the direction in which to travel (read forwards, backwards)</span>
+  <span class="p">,</span> <span class="nx">currIndex</span><span class="o">:</span> <span class="c1">// the index at which $currSlide resides within $slides</span>
+  <span class="p">,</span> <span class="nx">nextIndex</span><span class="o">:</span> <span class="c1">// the index at which $nextSlide resides within $slides</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>This method must support browsers that do not support 3D transformations by degrading gracefully to
+some other method of transitioning the slides. Any settings that need to be cached against the
+content slider for the next transition should be returned as a simple object which will be mixed
+into the plugin settings.</p>
+
+<div class="highlight"><pre><span class="nx">adaptor</span><span class="p">.</span><span class="nx">transition</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// move to the next previous slides</span>
+  <span class="k">return</span> <span class="p">{</span> <span class="nx">mycustomsetting</span><span class="o">:</span> <span class="s1">'value'</span> <span class="p">};</span>
+<span class="p">};</span>
+</pre></div>
+
+<h3><code>reset(jQuery $box, Object settings)</code></h3>
+
+<p>This method is optional and provides a method to reset the state of the plugin when an option is updated
+or the plugin is re-initialised. The first parameter <code>$box</code> is the content slider and the second <code>settings</code>
+is the options for the content slider.</p>
+
+<div class="highlight"><pre><span class="nx">adaptor</span><span class="p">.</span><span class="nx">reset</span><span class="p">(</span><span class="nx">$box</span><span class="p">,</span> <span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// reset the content slider's state</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3><code>destroy(jQuery $box, Object settings)</code></h3>
+
+<p>This method is required and handles the clean up required to return the
+element contained in the <code>$box</code> jQuery object back to it's original state
+before <code>initialize</code> was called. Any additional settings applied to <code>settings</code>
+should also be removed.</p>
+
+<div class="highlight"><pre><span class="nx">adaptor</span><span class="p">.</span><span class="nx">destroy</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$box</span><span class="p">,</span> <span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// reset css and remove any additional settings</span>
+<span class="p">};</span>
+</pre></div>
+
+<h3><code>_cacheOriginalCSS(jQuery $el, String name, Object settings, Array extraAttributes)</code></h3>
+
+<p>You do not need to define this method as it will be applied to the animation adaptor at
+the time it is registered with the plugin through the call to <code>registerAnimator</code>. This
+method will cache the original CSS of the given jQuery object in the
+<code>bssettings</code> data set for the slider, the <code>settings</code> object passed to all of the adaptor
+functions, so that the original CSS may be applied when the plugin is destroyed or reset.
+By default the following CSS attributes are cached <code>position, top, left, display, overflow, width, height</code>.
+Any additional attributes should be passed in as an array or strings in the <code>extraAttributes</code> parameter.</p>
+
+<div class="highlight"><pre><span class="nx">adaptor</span><span class="p">.</span><span class="nx">initialize</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$box</span><span class="p">,</span> <span class="nx">$slides</span><span class="p">,</span> <span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// cache the original css for reset or destroy</span>
+  <span class="nx">adaptor</span><span class="p">.</span><span class="nx">_cacheOriginalCSS</span><span class="p">(</span><span class="nx">$box</span><span class="p">,</span> <span class="s1">'box'</span><span class="p">,</span> <span class="nx">settings</span><span class="p">);</span>
+  <span class="nx">adaptor</span><span class="p">.</span><span class="nx">_cacheOriginalCSS</span><span class="p">(</span><span class="nx">$slides</span><span class="p">,</span> <span class="s1">'slides'</span><span class="p">,</span> <span class="nx">settings</span><span class="p">,</span> <span class="p">[</span>
+      <span class="nx">vendorPrefix</span> <span class="o">+</span> <span class="s1">'transform'</span>
+    <span class="p">,</span> <span class="nx">vendorPrefix</span> <span class="o">+</span> <span class="s1">'transition'</span>
+  <span class="p">]);</span>
+
+  <span class="c1">// implementation omitted</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>The cached CSS will then be available on the slider settings via the
+<code>origCSS</code> object under the item <code>name</code> provided when <code>_cacheOriginalCSS</code>
+was called.</p>
+
+<div class="highlight"><pre><span class="nx">adaptor</span><span class="p">.</span><span class="nx">destroy</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$box</span><span class="p">,</span> <span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// reset the original css</span>
+  <span class="nx">$box</span><span class="p">.</span><span class="nx">children</span><span class="p">().</span><span class="nx">css</span><span class="p">(</span><span class="nx">settings</span><span class="p">.</span><span class="nx">origCSS</span><span class="p">.</span><span class="nx">slides</span><span class="p">);</span>
+  <span class="nx">$box</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="nx">settings</span><span class="p">.</span><span class="nx">origCSS</span><span class="p">.</span><span class="nx">box</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+
+<h3>Example adaptor</h3>
+
+<p>Below is an example of a simple 2D fade transition registered with the plugin
+as the <code>fade</code> effect.</p>
+
+<div class="highlight"><pre><span class="p">;(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="nx">$</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="nx">w</span><span class="p">.</span><span class="nx">jqBoxSlider</span><span class="p">.</span><span class="nx">registerAnimator</span><span class="p">(</span><span class="s1">'fade'</span><span class="p">,</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">adaptor</span> <span class="o">=</span> <span class="p">{};</span>
+
+    <span class="c1">// setup slide and box css</span>
+    <span class="nx">adaptor</span><span class="p">.</span><span class="nx">initialize</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$box</span><span class="p">,</span> <span class="nx">$slides</span><span class="p">,</span> <span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// cache the original css for reset or destroy</span>
+      <span class="nx">adaptor</span><span class="p">.</span><span class="nx">_cacheOriginalCSS</span><span class="p">(</span><span class="nx">$box</span><span class="p">,</span> <span class="s1">'box'</span><span class="p">,</span> <span class="nx">settings</span><span class="p">);</span>
+      <span class="nx">adaptor</span><span class="p">.</span><span class="nx">_cacheOriginalCSS</span><span class="p">(</span><span class="nx">$slides</span><span class="p">,</span> <span class="s1">'slides'</span><span class="p">,</span> <span class="nx">settings</span><span class="p">);</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="s1">'static auto'</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">$box</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">'position'</span><span class="p">))</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$box</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">'position'</span><span class="p">,</span> <span class="s1">'relative'</span><span class="p">);</span>
+      <span class="p">}</span>
+
+      <span class="nx">$box</span><span class="p">.</span><span class="nx">css</span><span class="p">({</span><span class="nx">height</span><span class="o">:</span> <span class="nx">$slides</span><span class="p">.</span><span class="nx">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">height</span><span class="p">(),</span> <span class="nx">overflow</span><span class="o">:</span> <span class="s1">'hidden'</span><span class="p">});</span>
+      <span class="nx">$slides</span>
+        <span class="p">.</span><span class="nx">css</span><span class="p">({</span> <span class="nx">position</span><span class="o">:</span> <span class="s1">'absolute'</span><span class="p">,</span> <span class="nx">top</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">left</span><span class="o">:</span> <span class="mi">0</span> <span class="p">})</span>
+        <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">':gt(0)'</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+    <span class="p">};</span>
+
+    <span class="c1">// fade current out and next in</span>
+    <span class="nx">adaptor</span><span class="p">.</span><span class="nx">transition</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">settings</span><span class="p">.</span><span class="nx">$nextSlide</span><span class="p">.</span><span class="nx">fadeIn</span><span class="p">(</span><span class="nx">settings</span><span class="p">.</span><span class="nx">speed</span><span class="p">);</span>
+      <span class="nx">settings</span><span class="p">.</span><span class="nx">$currSlide</span><span class="p">.</span><span class="nx">fadeOut</span><span class="p">(</span><span class="nx">settings</span><span class="p">.</span><span class="nx">speed</span><span class="p">);</span>
+    <span class="p">};</span>
+
+    <span class="c1">// reset the original css</span>
+    <span class="nx">adaptor</span><span class="p">.</span><span class="nx">destroy</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$box</span><span class="p">,</span> <span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">$box</span><span class="p">.</span><span class="nx">children</span><span class="p">().</span><span class="nx">css</span><span class="p">(</span><span class="nx">settings</span><span class="p">.</span><span class="nx">origCSS</span><span class="p">.</span><span class="nx">slides</span><span class="p">);</span>
+      <span class="nx">$box</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="nx">settings</span><span class="p">.</span><span class="nx">origCSS</span><span class="p">.</span><span class="nx">box</span><span class="p">);</span>
+    <span class="p">};</span>
+
+    <span class="k">return</span> <span class="nx">adaptor</span><span class="p">;</span>
+
+  <span class="p">}()));</span>
+
+<span class="p">}(</span><span class="nb">window</span><span class="p">,</span> <span class="nx">jQuery</span> <span class="o">||</span> <span class="nx">Zepto</span><span class="p">));</span>
+</pre></div>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Adaptor maintained by <a href="https://github.com/p-m-p">p-m-p</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
